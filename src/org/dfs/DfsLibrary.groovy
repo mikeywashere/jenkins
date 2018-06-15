@@ -28,7 +28,7 @@ def OperatingSystem getOperatingSystem() {
 }
 
 def String getContributorsScript() {
-    return getOperatingSystem() == OperatingSystem.Windows ? "git log --pretty='%ce' | sort | uniq | tr '\\n' ','" : Constants.dollar + "data = (git log --pretty='%ce' | sort | Get-Unique); " + Constants.dollar + "data -join ';'";
+    return getOperatingSystem() == OperatingSystem.Linux ? "git log --pretty='%ce' | sort | uniq | tr '\\n' ','" : Constants.dollar + "data = (git log --pretty='%ce' | sort | Get-Unique); " + Constants.dollar + "data -join ';'";
 }
 
 def String getContributors() {
