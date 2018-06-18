@@ -27,13 +27,32 @@ def OperatingSystem getOperatingSystem() {
         : OperatingSystem.Linux;
 }
 
-def String getContributorsScript() {
-    return getOperatingSystem() == OperatingSystem.Linux ? "git log --pretty='%ce' | sort | uniq | tr '\\n' ','" : Constants.dollar + "data = (git log --pretty='%ce' | sort | Get-Unique); " + Constants.dollar + "data -join ';'";
+def String getContributorsScript(String filter) {
+    return getOperatingSystem() == OperatingSystem.Linux ? "git log --pretty='" + filter + "' | sort | uniq | tr '\\n' ','" : Constants.dollar + "data = (git log --pretty='%ce' | sort | Get-Unique); " + Constants.dollar + "data -join ';'";
 }
 
-def String getContributors() {
+def String getAllContributors(String filter) {
     return sh (
-        script: getContributorsScript(),
+        script: getContributorsScript(filter),
         returnStdout: true
     ).trim()
 }
+
+def String getContributorsEmail() {
+    def contributors = getAllContributors("%ce")
+
+    contributors = contributors.replace('noreply@github.com', '')
+    contributors = contributors.replace(',,', ',')
+
+    return contributors;
+}
+
+def String getContributorsName() {
+    def contributors = getAllContributors(%cn)
+
+    contributors = contributors.replace('GitHub', '')
+    contributors = contributors.replace(',,', ',')
+
+    return contributors;
+}
+
