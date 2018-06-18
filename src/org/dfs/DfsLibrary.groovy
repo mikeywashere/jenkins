@@ -46,9 +46,9 @@ def String getAllContributors(String filter) {
 def String cleanupContributors(String contributors) {
     contributors = contributors.replace(',,', ',')
     if ( contributors.endsWith(',') )
-        contributors = contributors.subString(0, contributors.length() - 1)
+        contributors = contributors.substring(0, contributors.length() - 1)
     if ( contributors[0] == ',' )
-        contributors = contributors.subString(1)
+        contributors = contributors.substring(1)
 
     return contributors;
 }
