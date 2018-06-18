@@ -32,26 +32,45 @@ def String getContributorsScript(String filter) {
 }
 
 def String getAllContributors(String filter) {
-    return sh (
+    def contributors = sh (
         script: getContributorsScript(filter),
         returnStdout: true
     ).trim()
+
+    if contributors == null || contributors.length() == 0
+        return ""
+
+    return contributors;
+}
+
+def String cleanupContributors(String contributors) {
+    contributors = contributors.replace(',,', ',')
+    if contributors.endsWith(',')   
+        contributors = contributors.subString(0, contributors.length() - 1)
+    if contributors[0] == ','   
+        contributors = contributors.subString(1)
+
+    return contributors;
 }
 
 def String getContributorsEmail() {
     def contributors = getAllContributors("%ce")
 
-    contributors = contributors.replace('noreply@github.com', '')
-    contributors = contributors.replace(',,', ',')
+    if contributors == null || contributors.length() == 0
+        return ""
 
-    return contributors;
+    contributors = contributors.replace('noreply@github.com', '')
+
+    return cleanupContributors(contributors);
 }
 
 def String getContributorsName() {
     def contributors = getAllContributors("%cn")
 
+    if contributors == null || contributors.length() == 0
+        return ""
+
     contributors = contributors.replace('GitHub', '')
-    contributors = contributors.replace(',,', ',')
 
     return contributors;
 }
