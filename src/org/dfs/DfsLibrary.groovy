@@ -48,7 +48,7 @@ def String getContributorsEmail() {
 }
 
 def String getContributorsName() {
-    def contributors = getAllContributors(%cn)
+    def contributors = getAllContributors("%cn")
 
     contributors = contributors.replace('GitHub', '')
     contributors = contributors.replace(',,', ',')
