@@ -31,10 +31,9 @@ def String getContributors() {
 }
 
 def Object getContributorNames() {
-    def jsonSlurper = new JsonSlurper()
     def contributorsJson = getContributors();
+    def object = readJSON text: contributorsJson
 
-    def object = jsonSlurper.parseText(contributorsJson)
     return object;
 }
 
