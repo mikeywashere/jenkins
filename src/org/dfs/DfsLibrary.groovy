@@ -89,12 +89,14 @@ def dump(Object value) {
     println value.properties
         .sort{it.key}
         .collect{it}
-        .findAll{!filtered.contains(it.key)}
         .join('\n')
 }
 
 def String getContributorsNames() {
     def emailsTemp = getContributors("%ce")
+
+    println emailsTemp
+
     def emails = toList(emailsTemp.split(","))
 
     dump(emails)
