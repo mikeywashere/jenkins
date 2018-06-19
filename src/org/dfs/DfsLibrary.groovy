@@ -27,6 +27,14 @@ def OperatingSystem getOperatingSystem() {
         : OperatingSystem.Linux;
 }
 
+def toList(String value) {
+    return [value]
+}
+
+def toList(value) {
+    value ?: []
+}
+
 def String getContributorsScript(String filter) {
     return getOperatingSystem() == OperatingSystem.Linux ? "git log --pretty='" + filter + "' | sort | uniq | tr '\\n' ','" : Constants.dollar + "data = (git log --pretty='%ce' | sort | Get-Unique); " + Constants.dollar + "data -join ';'";
 }
@@ -76,8 +84,11 @@ def String getContributorsByName() {
 }
 
 def String getContributorsNames() {
-    def emails = getContributors("%ce")
-    def nameAndEmails = getContributors("%cn|%ce")
+    def emailsTemp = getContributors("%ce")
+    def emails = toList(emailsTemp.split(","))
+
+    def nameAndEmailsTemp = getContributors("%cn|%ce")
+    def nameAndEmails = toList(nameAndEmailsTemp.split(","))
 
     def map = emails.collectEntries{ [(it.toLowerCase()):""] }
     nameAndEmails.each {
