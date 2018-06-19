@@ -31,7 +31,7 @@ def String getContributorsScript(String filter) {
     return getOperatingSystem() == OperatingSystem.Linux ? "git log --pretty='" + filter + "' | sort | uniq | tr '\\n' ','" : Constants.dollar + "data = (git log --pretty='%ce' | sort | Get-Unique); " + Constants.dollar + "data -join ';'";
 }
 
-def String getAllContributors(String filter) {
+def String getContributors(String filter) {
     def contributors = sh (
         script: getContributorsScript(filter),
         returnStdout: true
@@ -54,7 +54,7 @@ def String cleanupContributors(String contributors) {
 }
 
 def String getContributorsByEmail() {
-    def contributors = getAllContributors("%ce")
+    def contributors = getContributors("%ce")
 
     if ( contributors == null || contributors.length() == 0 )
         return ""
@@ -65,7 +65,7 @@ def String getContributorsByEmail() {
 }
 
 def String getContributorsByName() {
-    def contributors = getAllContributors("%cn")
+    def contributors = getContributors("%cn")
 
     if ( contributors == null || contributors.length() == 0 )
         return ""
