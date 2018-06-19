@@ -53,7 +53,7 @@ def String cleanupContributors(String contributors) {
     return contributors;
 }
 
-def String getContributorsEmail() {
+def String getContributorsByEmail() {
     def contributors = getAllContributors("%ce")
 
     if ( contributors == null || contributors.length() == 0 )
@@ -64,7 +64,7 @@ def String getContributorsEmail() {
     return cleanupContributors(contributors);
 }
 
-def String getContributorsName() {
+def String getContributorsByName() {
     def contributors = getAllContributors("%cn")
 
     if ( contributors == null || contributors.length() == 0 )
@@ -73,5 +73,22 @@ def String getContributorsName() {
     contributors = contributors.replace('GitHub', '')
 
     return contributors;
+}
+
+def String getContributorsNames() {
+    def emails = getContributors("%ce")
+    def nameAndEmails = getContributors("%cn|%ce")
+
+    def map = emails.collectEntries{ [(it.toLowerCase()):""] }
+    nameAndEmails.each {
+        def values = "${it}".split("|")
+        def name = values[0]
+        def email = values[1].toLowerCase()
+
+        def entry = emails[email]
+        if ( entry == null || entry == "" || entry.length() < name.length() ) {
+            map[email] = name
+        }
+    }
 }
 
