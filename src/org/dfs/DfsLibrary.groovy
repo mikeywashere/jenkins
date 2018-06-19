@@ -83,12 +83,26 @@ def String getContributorsByName() {
     return contributors;
 }
 
+def dump(Object value) {
+    def filtered = ['class', 'active']
+
+    println value.properties
+        .sort{it.key}
+        .collect{it}
+        .findAll{!filtered.contains(it.key)}
+        .join('\n')
+}
+
 def String getContributorsNames() {
     def emailsTemp = getContributors("%ce")
     def emails = toList(emailsTemp.split(","))
 
+    dump(emails)
+
     def nameAndEmailsTemp = getContributors("%cn|%ce")
     def nameAndEmails = toList(nameAndEmailsTemp.split(","))
+
+    dump(nameAndEmails)
 
     def map = emails.collectEntries{ [(it.toLowerCase()):""] }
     nameAndEmails.each {
