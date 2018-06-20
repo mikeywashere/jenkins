@@ -30,10 +30,15 @@ def String getContributors() {
     return contributors;
 }
 
-def Object getContributorNames() {
+def String getContributorNames() {
     def contributorsJson = getContributors();
     def object = readJSON text: contributorsJson
 
-    return object;
+    def list = object.collect { "${it.name}" }
+    list.unique()
+    def text = list.join(",")
+    echo "contributors: ${text}"
+    text = text.replace(" ", "%20").replace(",", "%2c") // try encoding
+    return text;
 }
 
