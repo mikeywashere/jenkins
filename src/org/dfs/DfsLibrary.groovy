@@ -25,8 +25,6 @@ def String getContributors() {
 
     contributors = "[" + contributors + "]"
 
-    echo contributors
-
     return contributors;
 }
 
@@ -37,7 +35,6 @@ def String getContributorNames() {
     def list = object.collect { "${it.name}" }
     list.unique()
     def text = list.join(",")
-    echo "contributors: ${text}"
     text = text.replace(" ", "%20").replace(",", "%2c") // try encoding
     return text;
 }
