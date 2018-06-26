@@ -30,7 +30,7 @@ def String getContributors() {
 
 def String getContributorNames() {
     def contributorsJson = getContributors();
-    def object = readJSON text: contributorsJson
+    def object = new groovy.json.JsonSlurperClassic().parseText(contributorsJson)
 
     def list = object.collect { "${it.name}" }
     list.unique()
