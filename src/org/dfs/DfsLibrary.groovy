@@ -41,16 +41,10 @@ def String getContributorNames() {
 
 def findFiles(String fileSpec) {
     def value = sh (
-        script: "find ./ -type f -name '*${fileSpec}'",
+        script: "find ./ -type f -name '${fileSpec}'",
         returnStdout: true
     ).trim()
     
-    echo "value = ${value}"
-
     def values = value.tokenize("\r\n")
-    echo "values.size() = ${values.size()}"
-    echo "values = ${values}"
-    def other = values.join("|")
-    echo "other - ${other}"
     return values;
 }
