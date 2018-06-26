@@ -45,8 +45,10 @@ def findFiles(String fileSpec) {
         returnStdout: true
     ).trim()
     
+    echo "value = ${value}"
+
     def values = value.tokenize("\r\n")
-    echo "values.length() = ${values.length()}"
+    echo "values.size() = ${values.size()}"
     echo "values = ${values}"
     def other = values.join("|")
     echo "other - ${other}"
