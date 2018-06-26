@@ -39,3 +39,12 @@ def String getContributorNames() {
     return text;
 }
 
+def findFiles(String fileSpec) {
+    def value = sh (
+        script: "find ./ -type f -name '*${fileSpec}'",
+        returnStdout: true
+    ).trim()
+    
+    def values = value.tokenize("\r\n")
+    return values.list();
+}
