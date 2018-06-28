@@ -48,3 +48,15 @@ def findFiles(String fileSpec) {
     def values = value.tokenize("\r\n")
     return values;
 }
+
+def String getCommitDescriptionScript() {
+    return "git log -1 --pretty=format:${Constants.doubleQuote}%h - %an, %ad : %s${Constants.doubleQuote}"
+}
+
+def String getCommitDescription() {
+    def description = sh (
+            script: getCommitDescriptionScript(),
+            returnStdout: true
+        ).trim()
+    return description;
+}
